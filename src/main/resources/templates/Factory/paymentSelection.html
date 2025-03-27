@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Método de Pago</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .payment-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .payment-option {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: left;
+            position: relative;
+        }
+        .payment-option:hover {
+            background-color: #e0e0e0;
+        }
+        .payment-option.selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .payment-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .modal-title {
+            margin-top: 0;
+            color: #4CAF50;
+            text-align: center;
+        }
+
+        /* Estilos para formularios */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .info-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .crypto-address {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="payment-container">
+    <h1>Selecciona tu método de pago</h1>
+
+    <button class="payment-option" onclick="showPaymentModal('crypto')">
+        <span class="payment-icon">🪙</span> Pagar con Criptomonedas
+    </button>
+
+    <button class="payment-option" onclick="showPaymentModal('paypal')">
+        <span class="payment-icon">🔵</span> Pagar con PayPal
+    </button>
+
+    <button class="payment-option" onclick="showPaymentModal('credit')">
+        <span class="payment-icon">💳</span> Pagar con Tarjeta de Crédito
+    </button>
+
+    <button class="payment-option" onclick="showPaymentModal('cash')">
+        <span class="payment-icon">💰</span> Pagar en Efectivo
+    </button>
+</div>
+
+<!-- Modal para Criptomonedas -->
+<div id="cryptoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title">🪙 Pago con Criptomonedas</h2>
+
+        <form id="cryptoForm" action="/ejemploFactoryMethod/pago" onsubmit="processPayment(event, 'crypto')">
+            <div class="form-group">
+                <label for="cryptoWallet">Tu dirección de billetera:</label>
+                <input type="text" id="cryptoWallet" placeholder="Ej: 0x71C7656EC7ab88b098defB751B7401B5f6d8976F" required>
+            </div>
+
+            <div class="form-group">
+                <label>Moneda a utilizar:</label>
+                <select id="cryptoCurrency" required>
+                    <option value="">Selecciona una criptomoneda</option>
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="ETH">Ethereum (ETH)</option>
+                    <option value="USDT">Tether (USDT)</option>
+                    <option value="BNB">Binance Coin (BNB)</option>
+                </select>
+            </div>
+
+            <div class="crypto-address">
+                <strong>Envía el pago a:</strong><br>
+                0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+            </div>
+
+            <p class="info-text">* Asegúrate de enviar el monto exacto. Las transacciones pueden tardar hasta 30 minutos en confirmarse.</p>
+
+            <button type="submit" class="submit-btn">Confirmar Pago</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para PayPal -->
+<div id="paypalModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title">🔵 Pago con PayPal</h2>
+
+        <form id="paypalForm" action="/ejemploFactoryMethod/pago" onsubmit="processPayment(event, 'paypal')">
+            <div class="form-group">
+                <label for="paypalEmail">Correo electrónico de PayPal:</label>
+                <input type="email" id="paypalEmail" placeholder="tucorreo@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="paypalPassword">Contraseña de PayPal:</label>
+                <input type="password" id="paypalPassword" placeholder="Ingresa tu contraseña" required>
+            </div>
+
+            <p class="info-text">* Serás redirigido al sitio oficial de PayPal para completar el pago de forma segura.</p>
+
+            <button type="submit" class="submit-btn">Iniciar Sesión y Pagar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para Tarjeta de Crédito -->
+<div id="creditModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title">💳 Pago con Tarjeta de Crédito</h2>
+
+        <form id="creditForm" action="/ejemploFactoryMethod/pago" onsubmit="processPayment(event, 'credit')">
+            <div class="form-group">
+                <label for="cardNumber">Número de tarjeta:</label>
+                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required pattern="[0-9\s]{13,19}">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cardExpiry">Fecha de expiración:</label>
+                    <input type="text" id="cardExpiry" placeholder="MM/AA" required pattern="\d{2}/\d{2}">
+                </div>
+
+                <div class="form-group">
+                    <label for="cardCvv">CVV:</label>
+                    <input type="text" id="cardCvv" placeholder="123" required pattern="\d{3,4}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cardName">Nombre en la tarjeta:</label>
+                <input type="text" id="cardName" placeholder="Como aparece en la tarjeta" required>
+            </div>
+
+            <p class="info-text">* Usamos encriptación SSL para proteger tus datos. No almacenamos información de tu tarjeta.</p>
+
+            <button type="submit" class="submit-btn">Pagar con Tarjeta</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para Efectivo -->
+<div id="cashModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title">💰 Pago en Efectivo</h2>
+
+        <form id="cashForm" action="/ejemploFactoryMethod/pago" onsubmit="processPayment(event, 'cash')">
+            <div class="form-group">
+                <label for="cashAmount">Monto a pagar:</label>
+                <input type="number" id="cashAmount" placeholder="Ej: 100.00" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cashMethod">Método de pago en efectivo:</label>
+                <select id="cashMethod" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="store">Pago en tienda física</option>
+                    <option value="courier">Pago con servicio de mensajería</option>
+                </select>
+            </div>
+
+            <div id="storeInfo" class="form-group">
+                <label>Dirección de la tienda:</label>
+                <p>Calle Principal 123, Ciudad, País</p>
+                <p><strong>Horario:</strong> Lunes a Viernes de 9:00 a 18:00</p>
+            </div>
+
+            <div id="courierInfo" class="form-group" style="display:none;">
+                <label for="courierAddress">Dirección para recoger el pago:</label>
+                <input type="text" id="courierAddress" placeholder="Ingresa tu dirección completa">
+            </div>
+
+            <button type="submit" class="submit-btn">Confirmar Pago en Efectivo</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title">✅ Pago confirmado</h2>
+
+        <div id="confirmationContent"></div>
+
+        <button onclick="closeModal()" class="submit-btn" style="background-color: #2196F3;">Cerrar</button>
+    </div>
+</div>
+
+<script>
+    // Mostrar modal según método seleccionado
+    function showPaymentModal(method) {
+        closeModal();
+        document.getElementById(method + 'Modal').style.display = 'block';
+    }
+
+    // Cerrar todos los modales
+    function closeModal() {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.style.display = 'none';
+        });
+    }
+
+    // Mostrar/ocultar información según método de pago en efectivo
+    document.getElementById('cashMethod').addEventListener('change', function() {
+        const method = this.value;
+        document.getElementById('storeInfo').style.display = method === 'store' ? 'block' : 'none';
+        document.getElementById('courierInfo').style.display = method === 'courier' ? 'block' : 'none';
+    });
+
+    // Procesar el pago
+    function processPayment(event, method) {
+        event.preventDefault();
+
+        let confirmationHtml = '';
+
+        switch(method) {
+            case 'crypto':
+                const wallet = document.getElementById('cryptoWallet').value;
+                const currency = document.getElementById('cryptoCurrency').value;
+                confirmationHtml = `
+                        <p><strong>Método:</strong> Criptomonedas (${currency})</p>
+                        <p><strong>Tu billetera:</strong> ${wallet}</p>
+                        <p>Por favor envía el pago a la dirección proporcionada. Recibirás una confirmación por correo electrónico una vez que se complete la transacción.</p>
+                    `;
+                break;
+
+            case 'paypal':
+                const email = document.getElementById('paypalEmail').value;
+                confirmationHtml = `
+                        <p><strong>Método:</strong> PayPal</p>
+                        <p><strong>Correo:</strong> ${email}</p>
+                        <p>Serás redirigido a PayPal para completar tu pago de forma segura.</p>
+                    `;
+                break;
+
+            case 'credit':
+                const cardNumber = document.getElementById('cardNumber').value;
+                const cardName = document.getElementById('cardName').value;
+                confirmationHtml = `
+                        <p><strong>Método:</strong> Tarjeta de Crédito</p>
+                        <p><strong>Tarjeta terminada en:</strong> ${cardNumber.slice(-4)}</p>
+                        <p><strong>Titular:</strong> ${cardName}</p>
+                        <p>Tu pago está siendo procesado. Recibirás un correo de confirmación.</p>
+                    `;
+                break;
+
+            case 'cash':
+                const amount = document.getElementById('cashAmount').value;
+                const cashMethod = document.getElementById('cashMethod').value;
+                const methodText = cashMethod === 'store' ? 'en tienda física' : 'con servicio de mensajería';
+                let addressInfo = '';
+
+                if (cashMethod === 'courier') {
+                    addressInfo = `<p><strong>Dirección para recoger:</strong> ${document.getElementById('courierAddress').value}</p>`;
+                }
+
+                confirmationHtml = `
+                        <p><strong>Método:</strong> Efectivo (${methodText})</p>
+                        <p><strong>Monto:</strong> $${amount}</p>
+                        ${addressInfo}
+                        <p>Por favor prepara el pago exacto. Un representante se comunicará contigo.</p>
+                    `;
+                break;
+        }
+
+        document.getElementById('confirmationContent').innerHTML = confirmationHtml;
+        closeModal();
+        document.getElementById('confirmModal').style.display = 'block';
+
+        // Aquí iría la lógica real de procesamiento del pago
+        // Por ahora solo mostramos la confirmación
+    }
+
+    // Cerrar el modal si se hace clic fuera del contenido
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            closeModal();
+        }
+    }
+</script>
+</body>
+</html>

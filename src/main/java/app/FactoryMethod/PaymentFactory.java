@@ -1,21 +1,32 @@
 package app.FactoryMethod;
 
 import app.FactoryMethod.Entidades.*;
+import app.Singleton.Log;
+import app.Singleton.Registro;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PaymentFactory {
-    public static Payment getPaymentMethod(String type) {
-        switch (type.toLowerCase()) {
-            case "creditcard":
-                return new CreditCardPayment();
-            case "paypal":
-                return new PayPalPayment();
-            case "crypto":
-                return new CryptoPayment();
-            case "cash":
-                return new CashPayment();
-            default:
-                throw new IllegalArgumentException("Método de pago no soportado");
+    private static List<OrdenDeCompra> misOrdenes;
+    private static PaymentFactory instance;
+
+    private PaymentFactory() {
+        super();
+        misOrdenes = new ArrayList<>();
+    } // Constructor privado
+
+    public static PaymentFactory getInstance() {
+        if (instance == null) {
+            instance = new PaymentFactory();
         }
+        return instance;
     }
+
+
+    public static List<OrdenDeCompra> getMisOrdenes() {
+        return misOrdenes;
+    }
+
 
 }

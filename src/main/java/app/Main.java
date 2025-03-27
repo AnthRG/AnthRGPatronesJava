@@ -1,6 +1,7 @@
 package app;
 
 import app.Singleton.SingletonController;
+import app.FactoryMethod.FactoryMethodController;
 import io.javalin.Javalin;
 import io.javalin.http.sse.SseClient;
 import io.javalin.http.staticfiles.Location;
@@ -59,6 +60,9 @@ public class Main {
 
         app.get("/ejemploSingleton", SingletonController::listar);
         app.post("/ejemploSingleton/crear", SingletonController::crear);
+
+        app.get("/ejemploFactoryMethod", ctx -> ctx.render("templates/Factory/paymentSelection.html"));
+        app.post("/ejemploFactoryMethod/pago", FactoryMethodController::procesarPago);
 
 
     }
