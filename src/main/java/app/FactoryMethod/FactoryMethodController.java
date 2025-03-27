@@ -13,19 +13,21 @@ import java.util.Map;
 public class FactoryMethodController {
 
     public static void procesarPago(@NotNull Context ctx) throws Exception {
-         // Simula la selección del usuario en tiempo de ejecución
-        String selectedMethod = ctx.pathParam("method");
+        String selectedMethod = ctx.formParam("method");
+        String pagoString = ctx.formParam("pago");
+        double pago = Double.parseDouble(pagoString);
         Payment payment = getPaymentMethod(selectedMethod);
-        payment.processPayment(100.50);
-        ctx.redirect("/");
+        String estado = payment.processPayment(pago);
+        PaymentFactory.getInstance().addOrdenDeCompra(pago,selectedMethod,estado);
+        ctx.redirect("/ejemploFactoryMethod");
     }
 
     public static void listar(@NotNull Context ctx) throws Exception {
         List<OrdenDeCompra> lista = PaymentFactory.getInstance().getMisOrdenes();
         Map<String, Object> modelo = new HashMap<>();
-        modelo.put("titulo", "Listado de Registros");
+        modelo.put("titulo", "Ordenes de Compra");
         modelo.put("lista", lista);
-        ctx.render("templates/singleton/listar.html", modelo);
+        ctx.render("templates/Factory/listar.html", modelo);
     }
 
     public static Payment getPaymentMethod(String type) {
@@ -37,6 +39,7 @@ public class FactoryMethodController {
             default -> throw new IllegalArgumentException("Método de pago no soportado");
         };
     }
+
 }
 
 

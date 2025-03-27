@@ -2,7 +2,7 @@ package app.FactoryMethod.Entidades;
 
 public class CashPayment implements Payment{
     @Override
-    public void processPayment(double amount) {
-
+    public String processPayment(double amount) {
+        return "Esperando Recivo";
     }
 }

@@ -23,8 +23,12 @@ public class PaymentFactory {
         return instance;
     }
 
+    public void addOrdenDeCompra(Double pago, String metodo, String estado) {
+        int id = misOrdenes.size() + 1;
+        misOrdenes.add(new OrdenDeCompra(id,pago,metodo,estado));
+    }
 
-    public static List<OrdenDeCompra> getMisOrdenes() {
+    public List<OrdenDeCompra> getMisOrdenes() {
         return misOrdenes;
     }
 

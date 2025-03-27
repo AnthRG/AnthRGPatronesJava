@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <title th:text="${titulo}">Listar Usuarios</title>
+  <title th:text="${titulo}">Listar Factory</title>
   <style>
     .jumbotron{
       margin-top: 50px;
@@ -16,20 +16,19 @@
 
 <div class="container">
   <div class="jumbotron">
-    <h1 class="display-4" th:text="${titulo}">Listado Registros</h1>
-    <p class="lead">Listado de Registros</p>
+    <h1 class="display-4" th:text="${titulo}">Listado Factory</h1>
+    <p class="lead">Listado de Factory</p>
   </div>
 
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addRegistroModal">
-    Nuevo Registro
-  </button>
+    <a href="/ejemploFactoryMethod/pago" class="btn btn-dark">Nuevo Pago</a>
 
   <table class="table table-striped">
     <thead>
     <tr>
       <th scope="col">Id</th>
-      <th scope="col">Log</th>
+      <th scope="col">Total</th>
+      <th scope="col">Metodo de Pago</th>
+      <th scope="col">Estado del Pago</th>
     </tr>
     </thead>
     <tbody>
@@ -37,7 +36,9 @@
       <th scope="row">
         <a th:text="${log.id}"/>
       </th>
-      <td th:text="${log.mensaje}">Mensaje</td>
+      <td th:text="${log.pago}">45.25</td>
+      <td th:text="${log.metodoPago}">Paypal</td>
+      <td th:text="${log.estado}">Completado</td>
     </tr>
     </tbody>
   </table>

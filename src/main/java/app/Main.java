@@ -61,7 +61,8 @@ public class Main {
         app.get("/ejemploSingleton", SingletonController::listar);
         app.post("/ejemploSingleton/crear", SingletonController::crear);
 
-        app.get("/ejemploFactoryMethod", ctx -> ctx.render("templates/Factory/paymentSelection.html"));
+        app.get("/ejemploFactoryMethod", FactoryMethodController::listar);
+        app.get("/ejemploFactoryMethod/pago", ctx -> ctx.render("templates/Factory/paymentSelection.html"));
         app.post("/ejemploFactoryMethod/pago", FactoryMethodController::procesarPago);
 
 

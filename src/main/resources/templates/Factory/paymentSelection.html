@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Selección de Método de Pago</title>
     <style>
         body {
@@ -148,7 +149,7 @@
     <h1>Selecciona tu método de pago</h1>
 
     <button class="payment-option" onclick="showPaymentModal('crypto')">
-        <span class="payment-icon">🪙</span> Pagar con Criptomonedas
+        <span class="payment-icon">🟡</span> Pagar con Criptomonedas
     </button>
 
     <button class="payment-option" onclick="showPaymentModal('paypal')">
@@ -168,7 +169,7 @@
 <div id="cryptoModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2 class="modal-title">🪙 Pago con Criptomonedas</h2>
+        <h2 class="modal-title">🟡 Pago con Criptomonedas</h2>
 
         <form id="cryptoForm" action="/ejemploFactoryMethod/pago" onsubmit="processPayment(event, 'crypto')">
             <div class="form-group">
@@ -205,7 +206,7 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <h2 class="modal-title">🔵 Pago con PayPal</h2>
 
-        <form id="paypalForm" action="/ejemploFactoryMethod/pago" onsubmit="processPayment(event, 'paypal')">
+        <form id="paypalForm" onsubmit="processPayment(event, 'paypal')">
             <div class="form-group">
                 <label for="paypalEmail">Correo electrónico de PayPal:</label>
                 <input type="email" id="paypalEmail" placeholder="tucorreo@example.com" required>
@@ -229,7 +230,7 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <h2 class="modal-title">💳 Pago con Tarjeta de Crédito</h2>
 
-        <form id="creditForm" action="/ejemploFactoryMethod/pago" onsubmit="processPayment(event, 'credit')">
+        <form id="creditForm" onsubmit="processPayment(event, 'credit')">
             <div class="form-group">
                 <label for="cardNumber">Número de tarjeta:</label>
                 <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required pattern="[0-9\s]{13,19}">
@@ -265,10 +266,10 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <h2 class="modal-title">💰 Pago en Efectivo</h2>
 
-        <form id="cashForm" action="/ejemploFactoryMethod/pago" onsubmit="processPayment(event, 'cash')">
+        <form id="cashForm" onsubmit="processPayment(event, 'cash')">
             <div class="form-group">
                 <label for="cashAmount">Monto a pagar:</label>
-                <input type="number" id="cashAmount" placeholder="Ej: 100.00" step="0.01" required>
+                <input type="number" id="cashAmount" placeholder="Ej: 100.00" step="0.50" required>
             </div>
 
             <div class="form-group">
@@ -301,15 +302,23 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2 class="modal-title">✅ Pago confirmado</h2>
+        <form id="confirmationForm" action="/ejemploFactoryMethod/pago" method="post">
+            <div id="confirmationContent"></div>
+            <input type="hidden" value="500" name="pago"/>
+            <input type="hidden" value="paypal" id="methodInput" name="method"/>
+            <button type="button" onclick="submitPayment()" class="submit-btn" style="background-color: #2196F3;">Cerrar</button>
+        </form>
 
-        <div id="confirmationContent"></div>
-
-        <button onclick="closeModal()" class="submit-btn" style="background-color: #2196F3;">Cerrar</button>
     </div>
 </div>
 
 <script>
     // Mostrar modal según método seleccionado
+
+    function submitPayment() {
+        document.getElementById('confirmationForm').submit();
+    }
+
     function showPaymentModal(method) {
         closeModal();
         document.getElementById(method + 'Modal').style.display = 'block';
@@ -340,30 +349,32 @@
                 const wallet = document.getElementById('cryptoWallet').value;
                 const currency = document.getElementById('cryptoCurrency').value;
                 confirmationHtml = `
-                        <p><strong>Método:</strong> Criptomonedas (${currency})</p>
-                        <p><strong>Tu billetera:</strong> ${wallet}</p>
-                        <p>Por favor envía el pago a la dirección proporcionada. Recibirás una confirmación por correo electrónico una vez que se complete la transacción.</p>
-                    `;
+                    <p><strong>Método:</strong> Criptomonedas (${currency})</p>
+                    <p><strong>Tu billetera:</strong> ${wallet}</p>
+                    <p>Por favor envía el pago a la dirección proporcionada. Recibirás una confirmación por correo electrónico una vez que se complete la transacción.</p>
+
+                `;
                 break;
 
             case 'paypal':
                 const email = document.getElementById('paypalEmail').value;
                 confirmationHtml = `
-                        <p><strong>Método:</strong> PayPal</p>
-                        <p><strong>Correo:</strong> ${email}</p>
-                        <p>Serás redirigido a PayPal para completar tu pago de forma segura.</p>
-                    `;
+                    <p><strong>Método:</strong> PayPal</p>
+                    <p><strong>Correo:</strong> ${email}</p>
+                    <p>Serás redirigido a PayPal para completar tu pago de forma segura.</p>
+
+                `;
                 break;
 
             case 'credit':
                 const cardNumber = document.getElementById('cardNumber').value;
                 const cardName = document.getElementById('cardName').value;
                 confirmationHtml = `
-                        <p><strong>Método:</strong> Tarjeta de Crédito</p>
-                        <p><strong>Tarjeta terminada en:</strong> ${cardNumber.slice(-4)}</p>
-                        <p><strong>Titular:</strong> ${cardName}</p>
-                        <p>Tu pago está siendo procesado. Recibirás un correo de confirmación.</p>
-                    `;
+                    <p><strong>Método:</strong> Tarjeta de Crédito</p>
+                    <p><strong>Tarjeta terminada en:</strong> ${cardNumber.slice(-4)}</p>
+                    <p><strong>Titular:</strong> ${cardName}</p>
+                    <p>Tu pago está siendo procesado. Recibirás un correo de confirmación.</p>
+                `;
                 break;
 
             case 'cash':
@@ -377,22 +388,24 @@
                 }
 
                 confirmationHtml = `
-                        <p><strong>Método:</strong> Efectivo (${methodText})</p>
-                        <p><strong>Monto:</strong> $${amount}</p>
-                        ${addressInfo}
-                        <p>Por favor prepara el pago exacto. Un representante se comunicará contigo.</p>
-                    `;
+                    <p><strong>Método:</strong> Efectivo (${methodText})</p>
+                    <p><strong>Monto:</strong> $${amount}</p>
+                    ${addressInfo}
+                    <p>Por favor prepara el pago exacto. Un representante se comunicará contigo.</p>
+                `;
                 break;
         }
+
+        // Set the method value properly
+        document.getElementById('methodInput').value = method;
+
+        // Submit the form programmatically
+        document.getElementById('confirmationForm').submit();
 
         document.getElementById('confirmationContent').innerHTML = confirmationHtml;
         closeModal();
         document.getElementById('confirmModal').style.display = 'block';
-
-        // Aquí iría la lógica real de procesamiento del pago
-        // Por ahora solo mostramos la confirmación
     }
-
     // Cerrar el modal si se hace clic fuera del contenido
     window.onclick = function(event) {
         if (event.target.classList.contains('modal')) {

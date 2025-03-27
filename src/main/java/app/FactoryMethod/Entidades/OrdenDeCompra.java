@@ -4,13 +4,13 @@ public class OrdenDeCompra {
     private int id;
     private double pago;
     private String metodoPago;
-    private Boolean completada;
+    private String estado;
 
-    public OrdenDeCompra(int id, double pago, String metodoPago, Boolean completada) {
+    public OrdenDeCompra(int id, double pago, String metodoPago, String completada) {
         this.id = id;
         this.pago = pago;
         this.metodoPago = metodoPago;
-        this.completada = completada;
+        this.estado = completada;
     }
 
     public int getId() {
@@ -37,11 +37,11 @@ public class OrdenDeCompra {
         this.metodoPago = metodoPago;
     }
 
-    public Boolean getCompletada() {
-        return completada;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setCompletada(Boolean completada) {
-        this.completada = completada;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }
