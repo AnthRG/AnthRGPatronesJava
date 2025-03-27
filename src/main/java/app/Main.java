@@ -1,27 +1,24 @@
 package app;
 
+
 import app.factoryAbstract.AbstractFactoryController;
-import app.singleton.SingletonController;
-import app.factoryMethod.FactoryMethodController;
+import app.factoryAbstract.entidades.ReportGenerator;
+import app.factoryAbstract.factory.CSVReportFactory;
+import app.factoryAbstract.factory.ExcelReportFactory;
+import app.factoryAbstract.factory.PDFReportFactory;
+import app.factoryAbstract.factory.ReportFactory;
+import app.FactoryMethod.FactoryMethodController;
+import app.Singleton.SingletonController;
 import io.javalin.Javalin;
-import io.javalin.http.sse.SseClient;
 import io.javalin.rendering.template.JavalinThymeleaf;
-import org.eclipse.jetty.websocket.api.Session;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.a;
 
 public class Main {
-
-    //Creando el repositorio de las sesiones recibidas.
-    public static List<Session> usuariosConectados = new ArrayList<>();
-    public static List<SseClient> listaSseUsuario = new ArrayList<>();
 
     public static void main(String[] args) {
         TemplateEngine templateEngine = new TemplateEngine();
@@ -60,8 +57,9 @@ public class Main {
         app.get("/ejemploFactoryMethod/pago", ctx -> ctx.render("templates/Factory/paymentSelection.html"));
         app.post("/ejemploFactoryMethod/pago", FactoryMethodController::procesarPago);
 
-        app.get("/ejemploAbstractFactory", AbstractFactoryController::listar);
-        app.post("/ejemploAbstractFactory/crear", AbstractFactoryController::crear);
+        app.get("/ejemploAbstractFactory", ctx -> ctx.render("templates/abstract/GenReporte.html"));
+        app.get("/ejemploAbstractFactory/generacion", AbstractFactoryController::generacion);
+
 
 
 

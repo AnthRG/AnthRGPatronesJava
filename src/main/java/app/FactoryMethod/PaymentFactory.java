@@ -1,6 +1,6 @@
-package app.factoryMethod;
+package app.FactoryMethod;
 
-import app.factoryMethod.entidades.*;
+import app.FactoryMethod.entidades.*;
 
 import java.util.ArrayList;
 import java.util.List;

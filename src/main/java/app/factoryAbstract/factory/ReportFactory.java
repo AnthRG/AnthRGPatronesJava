@@ -1,9 +1,11 @@
 package app.factoryAbstract.factory;
 
-import app.factoryAbstract.entidades.interfaces.ReportGenerator;
+import app.factoryAbstract.entidades.ReportGenerator;
 
-public interface ReportFactory {
-    ReportGenerator createReport();
+public class ReportFactory {
+    public ReportGenerator createReport(){
+        return null;
+    }
 }
 
 

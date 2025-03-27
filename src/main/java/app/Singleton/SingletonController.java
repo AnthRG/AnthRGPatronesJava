@@ -1,4 +1,4 @@
-package app.singleton;
+package app.Singleton;
 
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;

@@ -1,9 +1,9 @@
 package app.factoryAbstract.factory;
 
 import app.factoryAbstract.entidades.CSVReport;
-import app.factoryAbstract.entidades.interfaces.ReportGenerator;
+import app.factoryAbstract.entidades.ReportGenerator;
 
-public class CSVReportFactory implements ReportFactory{
+public class CSVReportFactory extends ReportFactory{
     @Override
     public ReportGenerator createReport() {
         return new CSVReport();

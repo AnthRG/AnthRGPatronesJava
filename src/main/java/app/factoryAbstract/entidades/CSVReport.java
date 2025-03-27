@@ -1,8 +1,14 @@
 package app.factoryAbstract.entidades;
 
-import app.factoryAbstract.entidades.interfaces.ReportGenerator;
+public class CSVReport extends ReportGenerator {
+    public CSVReport(int id, String estado) {
+        super(id, estado);
+    }
 
-public class CSVReport implements ReportGenerator {
+    public CSVReport() {
+        super();
+    }
+
     public String generateReport() {
         return "Generando reporte en CSV...";
     }

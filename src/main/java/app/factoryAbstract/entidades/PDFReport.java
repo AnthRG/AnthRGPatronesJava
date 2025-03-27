@@ -1,8 +1,13 @@
 package app.factoryAbstract.entidades;
 
-import app.factoryAbstract.entidades.interfaces.ReportGenerator;
+public class PDFReport extends ReportGenerator {
+    public PDFReport(int id, String estado) {
+        super(id, estado);
+    }
 
-public class PDFReport implements ReportGenerator {
+    public PDFReport() {
+        super();
+    }
     public String generateReport() {
         return "Generando reporte en PDF...";
     }

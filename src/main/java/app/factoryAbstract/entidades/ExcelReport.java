@@ -1,8 +1,13 @@
 package app.factoryAbstract.entidades;
 
-import app.factoryAbstract.entidades.interfaces.ReportGenerator;
+public class ExcelReport extends ReportGenerator {
+    public ExcelReport(int id, String estado) {
+        super(id, estado);
+    }
 
-public class ExcelReport implements ReportGenerator {
+    public ExcelReport() {
+        super();
+    }
     @Override
     public String generateReport() {
         return "Generando reporte en Excel...";

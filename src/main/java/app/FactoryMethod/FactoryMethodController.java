@@ -1,6 +1,6 @@
-package app.factoryMethod;
+package app.FactoryMethod;
 
-import app.factoryMethod.entidades.*;
+import app.FactoryMethod.entidades.*;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 

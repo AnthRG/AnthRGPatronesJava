@@ -1,4 +1,4 @@
-package app.factoryMethod.entidades;
+package app.FactoryMethod.entidades;
 
 public class CryptoPayment implements Payment{
     @Override

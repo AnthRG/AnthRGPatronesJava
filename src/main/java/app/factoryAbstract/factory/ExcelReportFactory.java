@@ -1,9 +1,9 @@
 package app.factoryAbstract.factory;
 
 import app.factoryAbstract.entidades.ExcelReport;
-import app.factoryAbstract.entidades.interfaces.ReportGenerator;
+import app.factoryAbstract.entidades.ReportGenerator;
 
-public class ExcelReportFactory implements ReportFactory{
+public class ExcelReportFactory extends ReportFactory{
     @Override
     public ReportGenerator createReport() {
         return new ExcelReport();
