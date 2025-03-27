@@ -1,4 +1,4 @@
-package app.FactoryMethod.Entidades;
+package app.factoryMethod.entidades;
 
 public class CreditCardPayment implements Payment{
     @Override

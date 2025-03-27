@@ -1,4 +1,4 @@
-package app.Singleton;
+package app.singleton;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,6 @@
-package app.FactoryMethod;
+package app.factoryMethod;
 
-import app.FactoryMethod.Entidades.*;
-import app.Singleton.Log;
-import app.Singleton.Registro;
+import app.factoryMethod.entidades.*;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 

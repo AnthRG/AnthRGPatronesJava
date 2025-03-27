@@ -1,23 +1,18 @@
 package app;
 
-import app.Singleton.SingletonController;
-import app.FactoryMethod.FactoryMethodController;
+import app.factoryAbstract.AbstractFactoryController;
+import app.singleton.SingletonController;
+import app.factoryMethod.FactoryMethodController;
 import io.javalin.Javalin;
 import io.javalin.http.sse.SseClient;
-import io.javalin.http.staticfiles.Location;
-import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 import org.eclipse.jetty.websocket.api.Session;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static j2html.TagCreator.*;
 import static j2html.TagCreator.a;
@@ -64,6 +59,10 @@ public class Main {
         app.get("/ejemploFactoryMethod", FactoryMethodController::listar);
         app.get("/ejemploFactoryMethod/pago", ctx -> ctx.render("templates/Factory/paymentSelection.html"));
         app.post("/ejemploFactoryMethod/pago", FactoryMethodController::procesarPago);
+
+        app.get("/ejemploAbstractFactory", AbstractFactoryController::listar);
+        app.post("/ejemploAbstractFactory/crear", AbstractFactoryController::crear);
+
 
 
     }

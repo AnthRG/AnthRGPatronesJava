@@ -1,8 +1,6 @@
-package app.FactoryMethod;
+package app.factoryMethod;
 
-import app.FactoryMethod.Entidades.*;
-import app.Singleton.Log;
-import app.Singleton.Registro;
+import app.factoryMethod.entidades.*;
 
 import java.util.ArrayList;
 import java.util.List;

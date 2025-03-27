@@ -1,4 +1,4 @@
-package app.Singleton;
+package app.singleton;
 
 public class Log {
     int id;
